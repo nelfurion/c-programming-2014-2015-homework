@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef struct {
+    int size, top;
+    char * data;
+} stack_t;
+
+void stack_init(stack_t * s)
+{
+    s->size = 20;
+    s->top = 0;
+    s->data = (char*) malloc(s->size * sizeof(char));
+}
+void stack_push(stack_t* s, char value)
+{
+    if(s->top < s->size)
+    {
+        s->data[s->top] = value;
+        s->top++;
+    }
+    else
+    {
+        printf("Can't push %c. Stack is full...\n", value);
+    }
+}
+char stack_pop(stack_t * s)
+{
+    if(s->top - 1 >= 0)
+    {
+        return s->data[--s->top];
+    }
+    else
+    {
+        printf("Can't pop. Stack is empty...\n");
+        return -1;
+    }
+}
+void stack_destroy(stack_t * s)
+{
+    free(s->data);
+    s->size = 0;
+    s->top = 0;
+}
+char stack_peek(stack_t * s)
+{
+    if(s->top - 1 >= 0)
+    {
+        return s->data[s->top - 1];
+    }
+    else
+    {
+        printf("Can't peek. Stack is empty...\n");
+    }
+    return -1;
+}
+int main()
+{
+    stack_t mystack;
+    stack_init(&mystack);
+    char input[20];
+    scanf("%s", input);
+    int i;
+    stack_push(&mystack, input[0]);
+    for(i = 1; input[i] != '\0'; i++)
+    {
+        if(input[i] == '}'
+           || input[i] == ']'
+           || input[i] == '>')
+        {
+            if(stack_peek(&mystack) == input[i] - 2)
+            {
+                stack_pop(&mystack);
+            }
+            else
+            {
+                printf("NAUGHTY BRACKETS!\n");
+                return 0;
+            }
+        }
+        else if(input[i] == ')')
+        {
+            if(stack_peek(&mystack) == input[i] - 1)
+            {
+                stack_pop(&mystack);
+            }
+            else
+            {
+                printf("NAUGHTY BRACKETS!\n");
+                return 0;
+            }
+        }
+        else
+        {
+            stack_push(&mystack, input[i]);
+        }
+    }
+    if(mystack.top == 0)
+        printf("You passed the test!\n");
+    else
+        printf("Can't fool me!!! NAUGHTY BRACKETS!\n");
+    return 0;
+}
