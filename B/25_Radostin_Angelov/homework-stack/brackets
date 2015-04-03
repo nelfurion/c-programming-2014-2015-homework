@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
+#include <stdio.h>\
 
 typedef struct {
     int size, top;
@@ -76,6 +74,7 @@ int main()
             else
             {
                 printf("NAUGHTY BRACKETS!\n");
+                stack_destroy(&mystack);
                 return 0;
             }
         }
@@ -88,6 +87,7 @@ int main()
             else
             {
                 printf("NAUGHTY BRACKETS!\n");
+                stack_destroy(&mystack);
                 return 0;
             }
         }
@@ -100,5 +100,6 @@ int main()
         printf("You passed the test!\n");
     else
         printf("Can't fool me!!! NAUGHTY BRACKETS!\n");
+    stack_destroy(&mystack);
     return 0;
 }
